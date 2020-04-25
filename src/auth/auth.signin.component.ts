@@ -44,4 +44,8 @@ export class AuthSigninComponent implements OnInit {
       }))
       .subscribe();
   }
+
+  public defaultLogin() {
+    this.auth.authorize();
+  }
 }

@@ -17,11 +17,8 @@
                   class="btn btn-outline-light btn-sm"
                   (click)="login()">Login</button></a>
       </li>
-      <ng-template #loading>
-        <div style="color: white">...</div>
-      </ng-template>
       <li class="nav-item dropdown"
-          *ngIf="isUserLogged && user; else loading">
+          *ngIf="isUserLogged && user">
         <a class="nav-link dropdown-toggle"
            id="navbarDropdown"
            role="button"
