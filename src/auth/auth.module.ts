@@ -1,3 +1,4 @@
+import { AuthHttpInterceptorService } from './auth.http.interceptor';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { AuthPasswordResetComponent } from './auth.password-reset.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthRoutes } from './auth.routes';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 const routes: Routes = [
@@ -42,7 +44,13 @@ export class AuthModule {
     return {
       ngModule: AuthModule,
       providers: [
-        { provide: AuthConfigService, useFactory: generateAutoConfigFactory(config) }
+        AuthService,
+        { provide: AuthConfigService, useFactory: generateAutoConfigFactory(config) },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: AuthHttpInterceptorService,
+          multi: true
+        }
       ]
     };
   }

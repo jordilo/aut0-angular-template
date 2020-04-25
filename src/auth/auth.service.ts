@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthConfigService } from './auth-config.service';
 import { AuthUser } from './auth';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { share, take } from 'rxjs/operators';
 
 (window as any).global = window;
@@ -20,8 +20,12 @@ export class AuthService {
     return this.userProfile;
   }
 
-  public get onUserLogin$(): Observable<AuthUser> {
+  public get user$(): Observable<AuthUser> {
     return this.onUserLoginSubject.pipe(share());
+  }
+
+  public get token$(): Observable<string> {
+    return this.onTokenChangeSubject.pipe(share());
   }
 
   // Store authentication data
@@ -30,6 +34,7 @@ export class AuthService {
   private authenticated: boolean;
   private userProfile: any;
   private onUserLoginSubject = new BehaviorSubject<AuthUser>(null);
+  private onTokenChangeSubject = new BehaviorSubject<string>(null);
 
   constructor(private router: Router, private config: AuthConfigService) {
     this.auth0 = new auth0.WebAuth(this.config);
@@ -128,7 +133,9 @@ export class AuthService {
     this.accessToken = authResult.accessToken;
     this.userProfile = profile;
     this.authenticated = true;
+    console.log(authResult, profile);
     this.onUserLoginSubject.next(profile);
+    this.onTokenChangeSubject.next(this.accessToken);
   }
 
   public logout() {
