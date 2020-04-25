@@ -14,6 +14,6 @@ export class ProfileComponent {
   public user$: Observable<AuthUser>;
   constructor(private auth: AuthService) {
 
-    this.user$ = this.auth.onUserLogin$.pipe(filter((user) => user !== null));
+    this.user$ = this.auth.user$.pipe(filter((user) => user !== null));
   }
 }
