@@ -12,7 +12,7 @@ export const environment = {
     returnTo: 'http://localhost:3000',
     scope: 'openid profile email',
     audience: `https://${domain}/userinfo`,
-    responseType: 'token',
+    responseType: 'token id_token',
   }
 };
 

@@ -10,7 +10,7 @@ import { share, take } from 'rxjs/operators';
 (window as any).global = window;
 const EXPIRES_AT_KEY = 'expiresAt';
 const TOKEN_KEY = 'accessToken';
-const TOKEN_ID = 'idToken';
+const TOKEN_ID = 'token';
 
 @Injectable()
 export class AuthService {
@@ -109,7 +109,7 @@ export class AuthService {
 
   private renewSession() {
     this.auth0.checkSession({}, (err, authResult) => {
-      if (authResult && authResult.accessToken) {
+      if (authResult) {
         this.getUserInfo(authResult);
       }
     });
@@ -133,9 +133,8 @@ export class AuthService {
     this.accessToken = authResult.accessToken;
     this.userProfile = profile;
     this.authenticated = true;
-    console.log(authResult, profile);
     this.onUserLoginSubject.next(profile);
-    this.onTokenChangeSubject.next(this.accessToken);
+    this.onTokenChangeSubject.next(authResult.idToken);
   }
 
   public logout() {

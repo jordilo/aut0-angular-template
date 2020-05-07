@@ -23,7 +23,7 @@ Template to implement quicky and easy a Auth0 engine with an Angular application
 		returnTo:  'http://localhost:3000',
 		scope:  'openid profile email',
 		audience:  `https://${domain}/userinfo`,
-		responseType:  'token',
+		responseType:  'token id_token',
 		}
 	};
    ``` 
